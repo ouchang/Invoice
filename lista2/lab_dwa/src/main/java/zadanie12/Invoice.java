@@ -7,65 +7,19 @@ import java.util.List;
  * Class resposinble for creating invoice.
  */
 public class Invoice {
-  int ID;
-
-  //[GRASP] - Pure fabrication
-  //Program communicates with invoice's class that implements interface
-  IInvoice invoicePersistent;
-
-  //[GRASP] - Pure fabrication
-  //Program communicates with customer's class that implements interface
   Customer customer;
-  ICustomer customerPersistent; 
-
-  //[GRASP] - Pure fabrication
-  //Program communicates with seller's class that implements interface
   Seller seller;
-  ISeller sellerPersistent;
-
-  //[GRASP] - Pure fabrication
-  //Program communicates with element's class that implements interface
   List<Element> elements;
-  IElement elementPersistent;
 
-  //SAVE constructor version
-  Invoice(IInvoice invoicePersistent, ICustomer customerPersistent,
-       Customer customer, ISeller sellerPersistent, Seller seller, IElement elementPersistent) {
-    this.invoicePersistent = invoicePersistent;
-    this.ID = invoicePersistent.getInvoiceID(); //gives highest ID from database + 1
+  Invoice(Customer customer, Seller seller) {
 
     this.customer = customer;
-    this.customerPersistent = customerPersistent;
-
     this.seller = seller;
-    this.sellerPersistent = sellerPersistent;
-
     this.elements = new ArrayList<Element>();
-    this.elementPersistent = elementPersistent;
-  }
-
-  //READ constructor version
-  Invoice(int ID, IInvoice invoicePersistent, ICustomer customerPersistent,
-       Customer customer, ISeller sellerPersistent, Seller seller, IElement elementPersistent) {
-    this.invoicePersistent = invoicePersistent;
-    this.ID = ID;
-
-    this.customer = customer;
-    this.customerPersistent = customerPersistent;
-
-    this.seller = seller;
-    this.sellerPersistent = sellerPersistent;
-
-    this.elements = new ArrayList<Element>();
-    this.elementPersistent = elementPersistent;
   }
 
   //[GRASP] - Expert
   //Invoice class has the most info about its getters & setters
-
-  public int getID() {
-    return ID;
-  }
 
   public void setCustomer(Customer customer) {
     this.customer = customer;
@@ -98,85 +52,6 @@ public class Invoice {
    */
   public Element getElement(int idx) {
     return elements.get(idx);
-  }
-
-  /**
-   * Method responsible for saving customer's data in database.
-   */
-  public void saveCustomer() {
-    //[GRASP] - Dependancy inversion
-    //Invoice class depends on customer's inteface
-    customerPersistent.saveData(customer);
-  }
-
-  /**
-   * Method responsible for reading customer's data from database.
-   */
-  public void readCustomer() {
-    //[GRASP] - Dependancy inversion
-    //Invoice class depends on invoice's inteface
-    invoicePersistent.readDataCustomer(this);
-  }
-
-  /**
-   * Method responsible for saving seller's data in database.
-   */
-  public void saveSeller() {
-    //[GRASP] - Dependancy inversion
-    //Invoice class depends on seller's inteface
-    sellerPersistent.saveData(seller);
-  }
-
-  /**
-   * Method responsible for reading seller's data from database.
-   */
-  public void readSeller() {
-    //[GRASP] - Dependancy inversion
-    //Invoice class depends on invoice's inteface
-    invoicePersistent.readDataSeller(this);
-  }
-
-  /**
-   * Method saves elements from invoice's list in database.
-   */
-  public void saveElements() {
-    for (int i = 0; i < elements.size(); i++) {
-      elementPersistent.saveData(elements.get(i), ID);
-    }
-  }
-
-  /**
-   * Method reads elements from database.
-   */
-  public void readElements() {
-    //[GRASP] - Dependancy inversion
-    //Invoice class depends on element's inteface
-    this.elements = elementPersistent.readData(ID);
-  }
-
-  /**
-   * General method for saving invoice's data.
-   * Uses: method for saving customer's data in database
-   *       method for saving seller's data in database
-   *       method for saving elements' data in database
-   */
-  public void save() {
-    saveCustomer();
-    saveSeller();
-    saveElements();
-    invoicePersistent.saveData(this);
-  }
-
-  /**
-   * General method for reading invoice's data.
-   * Uses: method for reading customer's data in database
-   *       method for reading seller's data in database
-   *       method for reading elements' data in database
-   */
-  public void read() {
-    readCustomer();
-    readSeller();
-    readElements();
   }
 
   //[GRASP] - Expert
