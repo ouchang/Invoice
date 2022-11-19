@@ -1,0 +1,58 @@
+@startuml Faktura
+
+class Customer {
+  +name : string
+  +taxID : string
+  +setName()
+  +getName()
+  +setTaxID()
+  +getTaxID()
+}
+
+class Seller {
+  +name : string
+  +taxID : string
+  +setName()
+  +getName()
+  +setTaxID()
+  +getTaxID()
+}
+
+class Invoice {
+  +ID : int
+  +customer : Customer
+  +seller : Seller
+  +elements : ArrayList<Element>
+  +setCustomer()
+  +getCustomer()
+  +setSeller()
+  +getSeller()
+  +addElement()
+  +getElement()
+  +countSumToPay()
+}
+
+class Element {
+  +amount : int
+  +product : Product
+  +setAmount()
+  +setProduct()
+  +setProductV()
+  +getAmount()
+  +getProduct()
+}
+
+class Product {
+  +name : string
+  +price : double
+  +setName()
+  +getName()
+  +setPrice()
+  +getPrice()
+}
+
+Invoice "1" -- "1" Customer
+Invoice "1" -- "1" Seller
+Invoice "1" -- "*" Element
+Element "1" -- "1" Product
+@enduml
